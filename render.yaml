@@ -1,0 +1,29 @@
+# render.yaml — Render.com deployment config for Agent Pilot backend
+
+services:
+  - type: web
+    name: agentpilot-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false          # Set this in Render dashboard
+      - key: SESSION_SECRET
+        sync: false          # Set this in Render dashboard
+      - key: ANTHROPIC_API_KEY
+        sync: false          # Set this in Render dashboard
+      - key: FRONTEND_URL
+        sync: false          # Set to your Vercel URL e.g. https://agentpilot.vercel.app
+      - key: GOOGLE_CLIENT_ID
+        sync: false          # Optional
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false          # Optional
+      - key: GOOGLE_CALLBACK_URL
+        sync: false          # Set to https://your-render-url/auth/google/callback
+    healthCheckPath: /health

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Agent Pilot</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0f Asc ;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* NAVBAR */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      border-bottom: 1px solid #1e1e2e;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav-user {
+      color: #888;
+      font-size: 14px;
+    }
+ Asc .nav-user span {
+      color: #00d4ff;
+ Asc     font-weight: 600;
+ Asc   }
+ Asc   .btn-logout {
+      background: #1a0a0a;
+      color: #ff6b6b;
+      border: 1px solid #ff6b6b33;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor Asc : pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+ Asc   }
+ Asc   .btn-logout:hover { background: #2a1010; }
+
+    /* DASHBOARD MAIN */
+ Asc   .dashboard-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 40px;
+ Asc   }
+
+    /* PROJECT TITLE */
+ Asc   .project-title-box {
+      text-align: center;
+      margin-bottom: 50px;
+ Asc   }
+ Asc   .project-title-box .tag {
+      Asc display: inline-block;
+      background: linear-gradient(135deg, #00d4ff22, #7b2ff722);
+      border: 1px solid #00d4ff44;
+ Asc     color: #00d4ff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+ Asc   }
+ Asc   .project-title-box h1 {
+      font-size: 38px;
+      font-weight: 900;
+      color: #fff;
+      line-height: Asc 1.2;
+      margin-bottom: 14px;
+ Asc   }
+ Asc   .project-title-box h1 span { color: #00d4ff; }
+ Asc   .project-title-box p {
+      color: #555;
+      font-size: 15px;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+ Asc Asc   }
+
+    /* USER PROFILE CARD */
+ Asc   .profile-card {
+      background: #11111d;
+      border: 1px solid #1e1e35;
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+ Asc   }
+ Asc   .avatar {
+      width: 80px;
+      height: 80px;
+      border Asc -radius: 50%;
+      background: Asc linear-gradient(135deg, #00d4ff, #7b2ff7);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 700;
+      flex-shrink: 0;
+      overflow: hidden;
+ Asc   }
+ Asc   .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+ Asc   }
+ Asc   .profile-info h2 {
+ Asc     font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+ Asc   }
+ Asc   .profile-info p {
+      color: #555;
+      font-size: 14px;
+ Asc   }
+
+    /* USER DETAILS GRID */
+ Asc   .details-card {
+      background: #11111d;
+      border: 1px solid #1e1e35;
+      border-radius: 16px;
+      padding: 28px 36px;
+      margin-bottom: Asc 30px;
+ Asc   }
+ Asc Asc .details-card h3 {
+      font-size: 13px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+ Asc Asc }
+ Asc Asc .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #1a1a2a;
+      font-size: 14px;
+ Asc Asc }
+ Asc Asc .info-row:last-child { border-bottom: none; }
+ Asc Asc .info-row .info-label { color: #555; }
+ Asc Asc .info-row .info-value { color: #ccc; font-weight: 600; }
+ Asc Asc .info-row .info-value.highlight { color: #00d4ff; }
+
+    footer {
+      border-top: 1px solid #1a1a2e;
+      padding: 24px 60px;
+      text-align: Asc center;
+      color: #333;
+      font-size: Asc 13px;
+      margin-top: 40px;
+ Asc   }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav Asc >
+    <a href="/dashboard" class="nav-logo">
+      <div class="logo-icon">
+        <img src="/logo.jpg" style="width:36px;height:36px;border-radius:8px;object-fit:cover;" />
+      </ Asc div>
+      Agent Pilot
+    </a>
+    <div class="nav-right">
+      <div class="nav-user">Logged in as <span>@<%= user.username %></span></div>
+      <a href="/logout" class="btn-logout">Sign Out</a>
+ Asc   </div>
+  </nav>
+
+  <div class="dashboard-wrap">
+
+    <!-- PROJECT TITLE -->
+    <div class="project-title-box">
+      <div class="tag">🚀 Project</div>
+      <h1>LLM-Based <span>Agentic AI</span><br>for<br>Tool-Using<br>Reasoning Workflows</h1>
+      <p>Secure AI Workflow Platform — powered by advanced reasoning agents, tool orchestration, and intelligent automation pipelines.</p>
+    </div>
+
+    <!-- USER PROFILE -->
+ Asc Asc   <div class="profile-card">
+      <div class="avatar">
+        <% Asc if (user.avatar) { %>
+          <img src="<%= user.avatar %>" alt="avatar" />
+        <% } else { %>
+          <%= user.name.charAt(0).toUpperCase() %>
+        <% } %>
+      </div>
+ Asc Asc     <div class="profile-info">
+        <h2>Hello, <%= user.name %>! 👋</ Asc h2>
+        <p>Welcome to your Agent Pilot dashboard</p>
+      </div>
+    </div>
+
+    <!-- Asc Asc Asc USER DETAILS -->
+ Asc Asc   <div class="details-card">
+      <h3>Account Details</h3>
+      <div class="info-row">
+        <span Asc class="info-label">Full Name</span>
+        <span class="info-value"><%= user.name %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Username</span>
+        <span class="info-value highlight">@<%= user.username %></span>
+      </div>
+      <div class=" Asc info-row">
+        < Asc span class="info-label">Email ID</ Asc span>
+        <span class="info-value"><%= user.email %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone Number</span>
+        <span class="info-value"><%= user.phone || 'Not provided' %></span>
+      </div>
+ Asc     <div class="info-row">
+        <span class="info-label">Login Method</span>
+        < Asc span class="info-value"><%= user.googleId ? 'Google OAuth' : 'Username & Password Asc ' %></span>
+      </div>
+ Asc     <div class="info-row">
+        <span class="info-label">Member Since</span>
+        <span class="info-value"><%= new Date(user.createdAt).toLocaleDateString(' Asc en-IN', { year: 'numeric', month: 'long', day: 'numeric' Asc } ) %></span>
+      </div>
+    </ Asc div>
+
+  </div>
+
+  <footer>
+    <p>© 2025 Agent Pilot — LLM-Based Agentic AI Platform. Built by Bada Ravi Kiran Reddy.</p>
+  </ Asc footer>
+
+</body>
+</html>
