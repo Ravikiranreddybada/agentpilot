@@ -27,7 +27,8 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'https://agentpilot.onrender.com/auth/google';
+    const api = useAuth().API;
+    window.location.href = `${api.replace('/api', '')}/auth/google`;
   };
 
   return (

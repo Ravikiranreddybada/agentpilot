@@ -3,7 +3,12 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext(null);
 
 // Single source of truth for the API URL
-const API = import.meta.env.VITE_API_URL || 'https://agentpilot.onrender.com';
+const getAPI = () => {
+  if (typeof window === 'undefined') return import.meta.env.VITE_API_URL || 'https://agentpilot.onrender.com';
+  if (window.location.hostname === 'localhost') return 'http://localhost:3000';
+  return import.meta.env.VITE_API_URL || 'https://agentpilot.onrender.com';
+};
+const API = getAPI();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);

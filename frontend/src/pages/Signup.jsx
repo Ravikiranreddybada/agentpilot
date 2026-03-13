@@ -38,7 +38,8 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = 'https://agentpilot.onrender.com/auth/google';
+    const { API } = useAuth();
+    window.location.href = `${API.replace('/api', '')}/auth/google`;
   };
 
   return (
