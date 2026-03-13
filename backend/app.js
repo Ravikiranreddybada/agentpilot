@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -64,7 +64,11 @@ app.use('/', authRoutes);
 app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
 
 // ──── Connect to MongoDB & start server ────
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/loginpage')
+if (!process.env.MONGODB_URI) {
+  console.error('FATAL: MONGODB_URI environment variable is not set.');
+  process.exit(1);
+}
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected');
     app.listen(PORT, () => {
