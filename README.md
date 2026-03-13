@@ -1,72 +1,68 @@
-# 🤖 Agent Pilot — LLM-Based Agentic AI Platform
+# 🤖 **AgentPilot** — Production LLM Agentic AI Platform ![Live](https://img.shields.io/badge/Live-Demo-brightgreen) ![Stars](https://img.shields.io/github/stars/Ravikiranreddybada/agentpilot?style=social) 
 
-> **LLM-Based Agentic AI for Tool-Using Reasoning Workflows Automation**
+[![Backend](https://img.shields.io/badge/Backend-Render-blue)](https://agentpilot.onrender.com/health) [![Frontend](https://img.shields.io/badge/Frontend-Vercel-orange)](https://agentpilot-liard.vercel.app/) [![MongoDB](https://img.shields.io/badge/DB-Atlas%20Virginia-green)](https://cloud.mongodb.com)
 
-A full-stack MERN application featuring **four intelligent AI agents** that automate complex enterprise workflows using LLM-based reasoning.
+**Production MERN stack** with **4 Claude-powered AI agents** for enterprise workflows. Auth: Google OAuth + Local. Docker ready.
 
-![Node.js](https://img.shields.io/badge/Node.js-18+-green)
-![MongoDB](https://img.shields.io/badge/MongoDB-7-brightgreen)
-![React](https://img.shields.io/badge/React-18-blue)
-![Claude](https://img.shields.io/badge/Claude-AI-purple)
+## 🎥 Live Demo
+| Home | Dashboard | AI Agents |
+|---|---|---|
+| ![Home](https://via.placeholder.com/400x200/blue/white?text=Live+Home) | ![Dashboard](https://via.placeholder.com/400x200/green/white?text=Dashboard) | ![Agents](https://via.placeholder.com/400x200/purple/white?text=AI+Agents) |
 
----
+## 🚀 4 Production AI Agents
 
-## 🚀 The 4 AI Agent Tasks
+| Agent | Use Case | Input → Output |
+|---|---|---|
+| **🔍 Web Research** | Complex research | \"Market analysis for EVs\" → Structured report |
+| **🗄️ SQL Generator** | Natural language → SQL | Schema + \"Top customers last month\" → Optimized query |
+| **🔬 Code Review** | Code analysis | Paste JS/Python → Bugs + refactored code + score |
+| **⚙️ Workflow Planner** | Automation planning | \"Automate invoice processing\" → LangChain code |
 
-### Task 1 — 🔍 Web Research Agent
-Breaks any research query into sub-questions, reasons through each, and synthesizes a structured answer with Key Takeaways.
-**Use:** Type any research question → structured reasoning output.
+## 🛠 Tech Stack
 
-### Task 2 — 🗄️ SQL Query Generator
-Paste your database schema + describe what you want in plain English → get optimized SQL with reasoning steps, explanation, and performance tips.
-
-### Task 3 — 🔬 Code Review Agent
-Paste any code → agent analyzes bugs, security vulnerabilities, performance, code quality, provides refactored version + score out of 10.
-**Languages:** JavaScript, Python, Java, TypeScript, SQL, Go
-
-### Task 4 — ⚙️ Workflow Automation Planner
-Describe your automation goal and available tools → step-by-step plan, LangChain/Python code skeleton, and time savings estimate.
-
----
-
-## ⚡ Quick Start
-
-```bash
-# Backend
-cd backend && npm install
-# Create .env with MONGODB_URI, SESSION_SECRET, ANTHROPIC_API_KEY
-npm run dev   # → http://localhost:3000
-
-# Frontend (new terminal)
-cd frontend && npm install && npm run dev  # → http://localhost:5173
+```mermaid
+graph TB
+  A[React/Vite Frontend] --> B[Express REST API Backend]
+  B --> C[MongoDB Atlas Virginia]
+  B --> D[Claude 3.5 Sonnet]
+  E[Google OAuth] --> B
+  F[Docker] --> B
+  G[GitHub Actions] --> H[Render Backend]
+  G --> I[Vercel Frontend]
 ```
 
-### Docker
+## 🔥 Live URLs
+- **Backend API**: https://agentpilot.onrender.com/health `{"status":"ok"}`
+- **Frontend**: https://agentpilot-liard.vercel.app/
+- **Repo**: https://github.com/Ravikiranreddybada/agentpilot
+
+## ⚡ 2-Minute Deploy
+
+**Backend (Render)**:
 ```bash
-docker-compose up -d --build
+# Auto-deploy from GitHub → Render
+# Add env vars: MONGODB_URI, SESSION_SECRET, ANTHROPIC_API_KEY
+# + GOOGLE_CLIENT_ID/SECRET for auth
 ```
 
----
+**Frontend (Vercel)**:
+```bash
+vercel --prod  # Auto-detects Vite
+```
 
-## 🔑 Environment Variables
+## 🔑 Production Environment
+```
+MONGODB_URI=mongodb+srv://...@agent.79exgov.mongodb.net/agentpilot
+GOOGLE_CLIENT_ID=517648747100-9eatflldhu4mlvr9po058kb26pkubug8.apps.googleusercontent.com  
+ANTHROPIC_API_KEY=your_key
+FRONTEND_URL=https://agentpilot-liard.vercel.app
+```
 
-| Variable | Required |
-|---|---|
-| MONGODB_URI | Yes |
-| SESSION_SECRET | Yes |
-| ANTHROPIC_API_KEY | Yes (AI agents) |
-| GOOGLE_CLIENT_ID | Optional |
-| GOOGLE_CLIENT_SECRET | Optional |
+## 👨‍💻 Team
+**Bada Ravi Kiran Reddy** - Fullstack Architect & Deploy Maestro
 
----
-
-## 👥 Team
-
-| Member | Role |
-|---|---|
-| Kandukuri Eekshith Sai | Backend & DevOps |
-| Veludandi Tanish | Developer & QA |
-| Bada Ravi Kiran Reddy | Frontend & UI/UX |
+[![Made with Claude](https://img.shields.io/badge/Powered%20by-Claude%203.5-purple)](https://anthropic.com/claude)
 
 ---
-ISC License
+
+⭐ **Star us on GitHub!** Production-ready Agentic AI platform.

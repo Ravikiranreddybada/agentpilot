@@ -116,7 +116,7 @@ export default function Home() {
       </div>
 
       <footer style={styles.footer}>
-        <p>© 2025 Agent Pilot — LLM-Based Agentic AI Platform. Built by Bada Ravi Kiran Reddy.</p>
+        <p>© 2025 Agent Pilot — LLM-Based Agentic AI Platform. Built with ❤️ by the team.</p>
       </footer>
     </div>
   );

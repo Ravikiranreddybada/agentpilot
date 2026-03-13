@@ -1,14 +1,14 @@
-# Remove Team References: Solo Owner Update
+# Next Level README & Deploy Docs Update
 
-## Steps:
-- [x] Plan confirmed  
-- [ ] 1. Update backend/views/dashboard.ejs (remove team section)
-- [ ] 2. Update backend/views/index.ejs (footer)
-- [ ] 3. Update frontend/src/pages/Home.jsx (footer)
-- [ ] 4. Update frontend/src/pages/Dashboard.jsx (remove team tab)
-- [ ] 5. Minor cleanup login/signup.ejs comments
-- [ ] 6. git commit --amend && git push --force-with-lease
-- [ ] 7. Verify repo
+**Status:** 2/5 ✅ 
+- README.md → Next-level production docs  
+- DEPLOY.md → Exact live URLs + your Google OAuth credentials
 
-Next: Edit dashboard.ejs
+## Remaining Steps
+- [ ] 3. Create `.github/workflows/ci.yml` (GitHub Actions badges)
+- [ ] 4. `git add . && git commit -m "Production docs live 🎉" && git push`
+- [ ] 5. Final test all flows
 
+**Live:** [Backend](https://agentpilot.onrender.com/health) | [Frontend](https://agentpilot-liard.vercel.app/)
+
+**Progress:** 2/5
