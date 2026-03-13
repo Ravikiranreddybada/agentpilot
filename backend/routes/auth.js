@@ -82,9 +82,9 @@ router.post('/api/login', ensureGuest, (req, res, next) => {
 // ──── Signup with all fields ────
 router.post('/api/signup', ensureGuest, async (req, res) => {
   try {
-    const { name, username, email, phone, password, confirmPassword } = req.body;
+    const { name, username, email, password, confirmPassword } = req.body;
 
-    if (!name || !username || !email || !phone || !password) {
+    if (!name || !username || !email || !password) {
       return res.status(400).json({ error: 'Please fill in all fields.' });
     }
 
@@ -114,7 +114,7 @@ router.post('/api/signup', ensureGuest, async (req, res) => {
       return res.status(400).json({ error: 'Username already taken. Please choose another.' });
     }
 
-    await User.create({ name, username: username.toLowerCase(), email, phone, password });
+    await User.create({ name, username: username.toLowerCase(), email, password });
     res.json({ success: true, message: 'Account created! Please log in.' });
   } catch (err) {
     console.error(err);

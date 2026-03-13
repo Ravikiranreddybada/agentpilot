@@ -3,11 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Signup() {
-  const [form, setForm] = useState({
+    const [form, setForm] = useState({
     name: '',
     username: '',
     email: '',
-    phone: '',
     password: '',
     confirmPassword: ''
   });
@@ -39,7 +38,7 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = 'http://localhost:3000/auth/google';
+    window.location.href = 'https://agentpilot.onrender.com/auth/google';
   };
 
   return (
@@ -93,18 +92,7 @@ export default function Signup() {
               style={styles.input}
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              placeholder="+91 9876543210"
-              required
-              style={styles.input}
-            />
-          </div>
+
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
