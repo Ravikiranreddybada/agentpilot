@@ -285,9 +285,9 @@ export default function Dashboard() {
           Agent Pilot
         </Link>
         <div style={{display:'flex',gap:2}}>
-{['agents','profile'].map(t=>(
-            <button key={t} onClick={()=>setTab(t)} style={{background:'transparent',border:'none',borderBottom:`2px solid ${tab===t?'#00d4 Asc ff':'transparent'}`,padding:'8px 18px',fontSize:13,fontWeight:600,cursor:'pointer',color:tab===t?'#fff':'#444',fontFamily:'Syne,sans-serif',transition:'all 0.2s'}}>
-              {t==='agents'?'🤖 AI Agents':t==='profile'?'👤 Profile'}
+          {['agents','profile','team'].map(t=>(
+            <button key={t} onClick={()=>setTab(t)} style={{background:'transparent',border:'none',borderBottom:`2px solid ${tab===t?'#00d4ff':'transparent'}`,padding:'8px 18px',fontSize:13,fontWeight:600,cursor:'pointer',color:tab===t?'#fff':'#444',fontFamily:'Syne,sans-serif',transition:'all 0.2s'}}>
+              {t==='agents'?'🤖 AI Agents':t==='profile'?'👤 Profile':'👥 Team'}
             </button>
           ))}
         </div>
