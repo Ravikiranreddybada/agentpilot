@@ -2,14 +2,15 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY package*.json ./
-RUN npm ci --only=production
+# Copy backend package files
+COPY backend/package*.json ./
 
-# Copy app source
-COPY . .
+RUN npm install --omit=dev
 
-# Create public folder for static files (team photos etc)
+# Copy backend source
+COPY backend/ .
+
+# Create public folder for static files
 RUN mkdir -p public
 
 EXPOSE 3000
