@@ -17,13 +17,10 @@ if (!process.env.MONGODB_URI) {
 }
 
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    process.env.FRONTEND_URL || 'https://agentpilot-liard.vercel.app'
-  ],
+  origin: true,
   credentials: true
 }));
+
 
 
 
