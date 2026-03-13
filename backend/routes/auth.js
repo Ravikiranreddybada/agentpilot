@@ -129,12 +129,15 @@ router.get('/auth/google',
 
 router.get('/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: (process.env.FRONTEND_URL || 'https://agentpilot-liard.vercel.app') + '/login?error=google_auth_failed',
+    failureRedirect: 'https://agentpilot-liard.vercel.app/login?error=google_auth_failed',
     failureFlash: true
   }),
   (req, res) => {
     // Successful authentication, redirect to React dashboard
-    res.redirect((process.env.FRONTEND_URL || 'https://agentpilot-liard.vercel.app') + '/dashboard');
+    const frontendUrl = process.env.FRONTEND_URL || 'https://agentpilot-liard.vercel.app';
+    // Safety check: never redirect to localhost in production
+    const safeUrl = frontendUrl.includes('localhost') ? 'https://agentpilot-liard.vercel.app' : frontendUrl;
+    res.redirect(safeUrl + '/dashboard');
   }
 );
 

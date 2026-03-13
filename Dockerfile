@@ -7,8 +7,9 @@ COPY backend/package*.json ./
 
 RUN npm install --omit=dev
 
-# Copy backend source
+# Copy backend source (excluding .env - use Render env vars instead)
 COPY backend/ .
+RUN rm -f .env
 
 # Create public folder for static files
 RUN mkdir -p public
