@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API = import.meta.env.VITE_API_URL || 'https://agentpilot.onrender.com';
 
 // ─── Task 1: Web Research Agent ──────────────────────────────────────────────
 function WebResearchAgent() {

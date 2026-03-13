@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-const API = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : 'https://agentpilot.onrender.com');
+// Single source of truth for the API URL
+const API = import.meta.env.VITE_API_URL || 'https://agentpilot.onrender.com';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -18,9 +19,12 @@ export function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
+      } else {
+        setUser(null);
       }
     } catch (err) {
       console.error('Auth check failed:', err);
+      setUser(null);
     } finally {
       setLoading(false);
     }
