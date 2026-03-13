@@ -16,13 +16,19 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://agentpilot-liard.vercel.app',          // hardcoded production frontend
+  process.env.FRONTEND_URL                          // override via env var if needed
+].filter(Boolean);
 app.use(cors({
-  origin: true,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('CORS: origin not allowed'));
+  },
   credentials: true
 }));
-
-
-
 
 
 app.use(express.static(__dirname + '/public'));
@@ -37,7 +43,7 @@ app.use(session({
     mongoUrl: process.env.MONGODB_URI,
     collectionName: 'sessions'
   }),
-    cookie: {
+  cookie: {
     maxAge: 1000 * 60 * 60 * 24,
     secure: true,
     sameSite: 'none'
