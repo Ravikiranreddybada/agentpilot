@@ -1,13 +1,8 @@
-# 🤖 **AgentPilot** — Production LLM Agentic AI Platform ![Live](https://img.shields.io/badge/Live-Demo-brightgreen) ![Stars](https://img.shields.io/github/stars/Ravikiranreddybada/agentpilot?style=social) 
+# 🤖 **AgentPilot** — Production LLM Agentic AI Platform 
 
 [![Backend](https://img.shields.io/badge/Backend-Render-blue)](https://agentpilot.onrender.com/health) [![Frontend](https://img.shields.io/badge/Frontend-Vercel-orange)](https://agentpilot-liard.vercel.app/) [![MongoDB](https://img.shields.io/badge/DB-Atlas%20Virginia-green)](https://cloud.mongodb.com)
 
-**Production MERN stack** with **4 Claude-powered AI agents** for enterprise workflows. Auth: Google OAuth + Local. Docker ready.
-
-## 🎥 Live Demo
-| Home | Dashboard | AI Agents |
-|---|---|---|
-| ![Home](https://via.placeholder.com/400x200/blue/white?text=Live+Home) | ![Dashboard](https://via.placeholder.com/400x200/green/white?text=Dashboard) | ![Agents](https://via.placeholder.com/400x200/purple/white?text=AI+Agents) |
+**Production MERN stack** with **4 LLM-powered AI agents** for enterprise workflows. Auth: Google OAuth + Local. Docker ready.
 
 ## 🚀 4 Production AI Agents
 
@@ -24,10 +19,10 @@
 graph TB
   A[React/Vite Frontend] --> B[Express REST API Backend]
   B --> C[MongoDB Atlas Virginia]
-  B --> D[Claude 3.5 Sonnet]
+  B --> D[LLM API]
   E[Google OAuth] --> B
   F[Docker] --> B
-  G[GitHub Actions] --> H[Render Backend]
+  G[GitHub] --> H[Render Backend]
   G --> I[Vercel Frontend]
 ```
 
@@ -39,30 +34,26 @@ graph TB
 ## ⚡ 2-Minute Deploy
 
 **Backend (Render)**:
-```bash
-# Auto-deploy from GitHub → Render
-# Add env vars: MONGODB_URI, SESSION_SECRET, ANTHROPIC_API_KEY
-# + GOOGLE_CLIENT_ID/SECRET for auth
+```
+# Connect GitHub repo → backend/ → Node → npm install → npm start
 ```
 
 **Frontend (Vercel)**:
-```bash
-vercel --prod  # Auto-detects Vite
+```
+vercel --prod  # Auto Vite deploy
 ```
 
 ## 🔑 Production Environment
 ```
 MONGODB_URI=mongodb+srv://...@agent.79exgov.mongodb.net/agentpilot
-GOOGLE_CLIENT_ID=517648747100-9eatflldhu4mlvr9po058kb26pkubug8.apps.googleusercontent.com  
-ANTHROPIC_API_KEY=your_key
+GOOGLE_CLIENT_ID=517648747100-9eatflldhu4mlvr9po058kb26pkubug8.apps.googleusercontent.com
+ANTHROPIC_API_KEY=your_key  
 FRONTEND_URL=https://agentpilot-liard.vercel.app
 ```
 
-## 👨‍💻 Team
-**Bada Ravi Kiran Reddy** - Fullstack Architect & Deploy Maestro
-
-[![Made with Claude](https://img.shields.io/badge/Powered%20by-Claude%203.5-purple)](https://anthropic.com/claude)
+## 👨‍💻 Creator
+**Bada Ravi Kiran Reddy** — Fullstack & DevOps
 
 ---
 
-⭐ **Star us on GitHub!** Production-ready Agentic AI platform.
+Production-ready Agentic AI platform. Deploy in 2 minutes.
