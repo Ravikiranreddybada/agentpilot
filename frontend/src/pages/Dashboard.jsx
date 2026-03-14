@@ -18,8 +18,7 @@ function WebResearchAgent() {
     const iv = setInterval(() => setStepIdx(i => (i + 1) % steps.length), 900);
     try {
       const res = await fetch(`${API}/api/agent`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514', max_tokens: 1000,
           system: `You are a Web Research Agent. For any research query:
@@ -31,7 +30,11 @@ Be concise but thorough. Use emojis for section icons.`,
         })
       });
       const data = await res.json();
-      setResult(data.content?.[0]?.text || 'No response.');
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.content?.[0]?.text || 'No response.');
+      }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
@@ -63,8 +66,7 @@ function SQLAgent() {
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
       const res = await fetch(`${API}/api/agent`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514', max_tokens: 1000,
           system: `You are a SQL Query Generation Agent. Given a schema and natural language request:
@@ -79,7 +81,11 @@ function SQLAgent() {
         })
       });
       const data = await res.json();
-      setResult(data.content?.[0]?.text || 'No response.');
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.content?.[0]?.text || 'No response.');
+      }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
@@ -114,8 +120,7 @@ function CodeReviewAgent() {
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
       const res = await fetch(`${API}/api/agent`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514', max_tokens: 1000,
           system: `You are a Code Review Agent for ${lang}. Analyze and provide:
@@ -129,7 +134,11 @@ function CodeReviewAgent() {
         })
       });
       const data = await res.json();
-      setResult(data.content?.[0]?.text || 'No response.');
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.content?.[0]?.text || 'No response.');
+      }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
@@ -166,8 +175,7 @@ function WorkflowPlannerAgent() {
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
       const res = await fetch(`${API}/api/agent`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514', max_tokens: 1000,
           system: `You are a Workflow Automation Planner Agent. Given a goal and tools:
@@ -182,7 +190,11 @@ Be practical and specific.`,
         })
       });
       const data = await res.json();
-      setResult(data.content?.[0]?.text || 'No response.');
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.content?.[0]?.text || 'No response.');
+      }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
