@@ -362,13 +362,11 @@ export default function Dashboard() {
               <h1 style={{fontSize:38,fontWeight:900,marginBottom:8}}>Our <span style={{color:'#00d4ff'}}>Team</span></h1>
               <p style={{color:'#444',fontSize:15}}>The engineers who built Agent Pilot</p>
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24}}>
+            <div style={{display:'flex',justifyContent:'center'}}>
               {[
-                {i:'E',n:'Kandukuri Eekshith Sai',r:'Backend & DevOps',c:'#00d4ff',d:'Designed the backend API, MongoDB models, CI/CD pipelines, and Docker infrastructure.'},
-                {i:'V',n:'Veludandi Tanish',r:'Developer & QA',c:'#a78bfa',d:'Built and tested core features, ensured code quality and system reliability across all modules.'},
-                {i:'R',n:'Bada Ravi Kiran Reddy',r:'Frontend & UI/UX',c:'#34d399',d:'Designed and implemented the user interface with modern UI/UX principles and React.'},
+                {i:'R',n:'Bada Ravi Kiran Reddy',r:'Full Stack Developer',c:'#34d399',d:'Designed and implemented the end-to-end Agent Pilot platform, including the AI reasoning engine, frontend UI, and backend architecture.'},
               ].map(m=>(
-                <div key={m.n} style={{background:'#0d0d1a',border:`1px solid ${m.c}22`,borderRadius:16,padding:'32px 28px',textAlign:'center'}}>
+                <div key={m.n} style={{background:'#0d0d1a',border:`1px solid ${m.c}22`,borderRadius:16,padding:'32px 28px',textAlign:'center',maxWidth:400}}>
                   <div style={{width:72,height:72,borderRadius:'50%',background:`${m.c}18`,border:`2px solid ${m.c}44`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:28,fontWeight:800,color:m.c,margin:'0 auto 16px'}}>{m.i}</div>
                   <h3 style={{fontSize:17,fontWeight:800,marginBottom:8}}>{m.n}</h3>
                   <span style={{display:'inline-block',border:`1px solid ${m.c}44`,color:m.c,fontSize:11,fontWeight:700,padding:'3px 12px',borderRadius:20,marginBottom:14}}>{m.r}</span>
