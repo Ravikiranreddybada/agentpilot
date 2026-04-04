@@ -6,8 +6,48 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-responsive {
+            padding: 18px 20px !important;
+            flex-wrap: wrap;
+            gap: 15px;
+          }
+          .hero-responsive {
+            flex-direction: column !important;
+            padding: 40px 20px !important;
+            text-align: center;
+            min-height: auto !important;
+          }
+          .hero-left-responsive {
+            max-width: 100% !important;
+            margin-bottom: 40px;
+          }
+          .hero-right-responsive {
+            max-width: 100% !important;
+          }
+          .title-responsive {
+            font-size: clamp(2.5rem, 10vw, 4rem) !important;
+            line-height: 1.1 !important;
+          }
+          .btns-responsive {
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          .tech-bar-responsive {
+            padding: 28px 20px !important;
+            flex-wrap: wrap;
+            gap: 24px !important;
+            justify-content: center;
+          }
+          .footer-responsive {
+            padding: 24px 20px !important;
+          }
+        }
+      `}</style>
+
       {/* NAVBAR */}
-      <nav style={styles.nav}>
+      <nav style={styles.nav} className="nav-responsive">
         <Link to="/" style={styles.navLogo}>
           <div style={styles.logoIcon}>AP</div>
           <span>Agent Pilot</span>
@@ -25,9 +65,9 @@ export default function Home() {
       </nav>
 
       {/* HERO SECTION */}
-      <section style={styles.hero}>
-        <div style={styles.heroLeft}>
-          <h1 style={styles.title}>
+      <section style={styles.hero} className="hero-responsive">
+        <div style={styles.heroLeft} className="hero-left-responsive">
+          <h1 style={styles.title} className="title-responsive">
             LLM-Based<br />
             <span style={styles.highlight}>Agentic AI</span><br />
             for Tool-Using<br />
@@ -39,13 +79,13 @@ export default function Home() {
             Secure AI Workflow Platform — powered by advanced reasoning agents, 
             tool orchestration, and intelligent automation pipelines.
           </p>
-          <div style={styles.heroBtns}>
+          <div style={styles.heroBtns} className="btns-responsive">
             <Link to="/signup" style={styles.btnCreate}>Create Account →</Link>
             <Link to="/login" style={styles.btnLogin}>Sign In</Link>
           </div>
         </div>
 
-        <div style={styles.heroRight}>
+        <div style={styles.heroRight} className="hero-right-responsive">
           <div style={styles.aboutCard}>
             <h2 style={styles.cardTitle}>About This Platform</h2>
             <p style={styles.cardText}>
@@ -88,7 +128,7 @@ export default function Home() {
       </section>
 
       {/* TECH BAR */}
-      <div style={styles.techBar}>
+      <div style={styles.techBar} className="tech-bar-responsive">
         <div style={styles.techItem}>
           <strong>MongoDB</strong>
           <span>Database</span>
@@ -115,7 +155,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer style={styles.footer}>
+      <footer style={styles.footer} className="footer-responsive">
         <p>© 2025 Agent Pilot — LLM-Based Agentic AI Platform. Built with ❤️ by the team.</p>
       </footer>
     </div>
@@ -127,14 +167,17 @@ const styles = {
     minHeight: '100vh',
     background: '#0a0a0f',
     color: '#fff',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    maxWidth: '100vw',
+    overflowX: 'hidden'
   },
   nav: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '18px 60px',
-    borderBottom: '1px solid #1e1e2e'
+    borderBottom: '1px solid #1e1e2e',
+    transition: 'all 0.3s ease'
   },
   navLogo: {
     display: 'flex',
@@ -181,14 +224,15 @@ const styles = {
     justifyContent: 'space-between',
     padding: '80px 60px',
     minHeight: '85vh',
-    gap: '40px'
+    gap: '40px',
+    transition: 'all 0.3s ease'
   },
   heroLeft: {
     flex: '1',
     maxWidth: '640px'
   },
   title: {
-    fontSize: '72px',
+    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
     fontWeight: '900',
     lineHeight: '1.05',
     color: '#fff',
@@ -282,7 +326,8 @@ const styles = {
     borderTop: '1px solid #1a1a2e',
     padding: '28px 60px',
     display: 'flex',
-    gap: '48px'
+    gap: '48px',
+    transition: 'all 0.3s ease'
   },
   techItem: {
     display: 'flex',
@@ -293,7 +338,8 @@ const styles = {
     padding: '24px 60px',
     textAlign: 'center',
     color: '#444',
-    fontSize: '13px'
+    fontSize: '13px',
+    transition: 'all 0.3s ease'
   }
 };
 
