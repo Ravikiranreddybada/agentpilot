@@ -1,22 +1,14 @@
-FROM node:20-alpine
-
+# Build stage
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copy backend package files
-COPY backend/package*.json ./
-
-RUN npm install --omit=dev
-
-# Copy backend source (excluding .env - use Render env vars instead)
-COPY backend/ .
-RUN rm -f .env
-
-# Create public folder for static files
-RUN mkdir -p public
-
+# Run stage
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 3000
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1
-
-CMD ["node", "app.js"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

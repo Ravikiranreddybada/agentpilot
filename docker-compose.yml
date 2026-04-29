@@ -1,20 +1,19 @@
-version: "3.8"
-
 services:
-  # ── MongoDB ──
+  # ── MongoDB: State Layer ──
+  # Persists data even if the container is destroyed
   mongo:
     image: mongo:7
     container_name: agenticai-mongo
     restart: unless-stopped
     ports:
-      - "27018:27017"
+      - "27018:27017" # Mapping 27018 on host to 27017 in container
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db # Named volume for persistence
 
-  # ── Node.js App ──
+  # ── Java Spring Boot: Application Layer ──
   app:
     build: .
-    container_name: agenticai-app
+    container_name: toolforge-java-backend
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -22,11 +21,27 @@ services:
       - mongo
     environment:
       PORT: 3000
-      MONGODB_URI: mongodb://mongo:27017/loginpage
-      SESSION_SECRET: change-me-in-production
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-your-google-client-id}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-your-google-client-secret}
-      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:3000/auth/google/callback}
+      MONGODB_URI: mongodb://mongo:27017/toolforge
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL}
+      TAVILY_API_KEY: ${TAVILY_API_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+
+  # ── React Frontend: Presentation Layer ──
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:3000 # Backend on port 3000
+    container_name: toolforge-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - app
 
 volumes:
   mongo-data:

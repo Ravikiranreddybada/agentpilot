@@ -1,193 +1,81 @@
-# 🤖 AgentPilot — Production-Grade AI Agentic Platform
+# ToolForge — Java Spring Boot + Spring AI Backend
 
-<div align="center">
-  <p align="center">
-    <b>A high-performance LLM-powered platform for autonomous reasoning and task execution.</b>
-  </p>
-  <p align="center">
-    <img src="https://img.shields.io/badge/Agentic%20AI-Llama%203.3-7b2ff7?style=for-the-badge&logo=ai" alt="AI Agentic" />
-    <img src="https://img.shields.io/badge/Frontend-React%2019-00d4ff?style=for-the-badge&logo=react" alt="React" />
-    <img src="https://img.shields.io/badge/Backend-Node.js-34d399?style=for-the-badge&logo=node.js" alt="Node.js" />
-    <img src="https://img.shields.io/badge/Infrastructure-Docker-2496ED?style=for-the-badge&logo=docker" alt="Docker" />
-  </p>
-  <p align="center">
-    <a href="https://agentpilot-liard.vercel.app/"><strong>Live Demo</strong></a> ·
-    <a href="https://agentpilot.onrender.com/health"><strong>API Health</strong></a> ·
-    <a href="https://github.com/Ravikiranreddybada/agentpilot/issues"><strong>Report Bug</strong></a>
-  </p>
-</div>
+Complete conversion of the Node.js/Express + LangChain backend to **Java 21 + Spring Boot 3.2 + Spring AI**.
 
----
+## Architecture Map
 
-## 📖 Overview
-**AgentPilot** is a production-ready MERN platform that leverages **Llama 3.3 (via Groq)** to provide four autonomous AI agents designed for enterprise workflows. Unlike standard chatbots, AgentPilot agents use **Chain-of-Thought (CoT)** reasoning to plan, parse, and execute complex technical tasks.
+| Node.js (original)                          | Spring Boot (this project)                          |
+|---------------------------------------------|-----------------------------------------------------|
+| `app.js` — Express + CORS                   | `SecurityConfig.java` + `ToolforgeApplication`      |
+| `routes/auth.js` — JWT, Passport            | `AuthController` + `JwtUtils` + `JwtAuthFilter`     |
+| `routes/agent.js` — 6 agents               | `AgentController` + `AgentService`                  |
+| `agents/agentService.js` — LangChain/Groq  | `AgentService` (Spring AI ChatClient + tools)       |
+| LangChain `@langchain/groq` LLM            | Spring AI OpenAI-compatible client → Groq           |
+| `createReactAgent()` tool loop             | Spring AI automatic tool-calling loop               |
+| `execute_mongo_query` tool                 | `MongoTools.executeMongoQuery()`                    |
+| `get_collection_names` tool                | `MongoTools.getCollectionNames()`                   |
+| `execute_http_request` tool                | `HttpTools.executeHttpRequest()`                    |
+| `send_slack_notification` tool             | `SlackTools.sendSlackNotification()`                |
+| Tavily `TavilySearchResults` tool          | `TavilyTools.searchWeb()`                           |
+| `models/User.js` — Mongoose                | `User.java` + `UserRepository`                      |
+| `config/passport.js`                       | `OAuth2SuccessHandler` + Spring Security OAuth2     |
 
-### 🧩 The Problem
-Modern workflows are fragmented. Developers and researchers spend hours switching between tools for code review, SQL generation, and market research, often losing context and precision.
+## ✅ Everything is converted — no differences remain
 
-### 💡 The Solution
-A unified command center where specialized AI agents handle technical heavy lifting. Built with security-first architecture (JWT + OAuth 2.0) and a high-performance React frontend.
+- JWT authentication + BCrypt
+- Local signup & login
+- Google OAuth2
+- All 6 agent system prompts (research, mongodb, codereview, workflow, prompt, api)
+- All 4 tools with full tool-calling loop (Spring AI handles ReAct automatically)
+- 45-second timeout
+- Groq via Spring AI OpenAI-compatible client
+- CORS (localhost + *.vercel.app)
+- Health check, webhook endpoint
 
----
+## Running Locally
 
-## 🚀 Live Demo
-- **Frontend Explorer**: [AgentPilot Vercel](https://agentpilot-liard.vercel.app/)
-- **Backend API**: [AgentPilot Render](https://agentpilot.onrender.com/health)
-- **Demo Video**: [Loom Walkthrough (Coming Soon)](#)
-
----
-
-## 🛠 Tech Stack
-
-| Category | Technology |
-|---|---|
-| **Frontend** | React 19, Vite, React Router 7, Tailwind/Custom CSS |
-| **Backend** | Node.js, Express 5, Passport.js (Google OAuth 2.0) |
-| **Database** | MongoDB Atlas, Mongoose, Connect-Mongo |
-| **AI Intelligence** | Groq API (Llama 3.3 70B), Chain-of-Thought Prompting |
-| **DevOps** | Docker, Docker Compose, Jenkins, Vercel, Render |
-
----
-
-## 🔥 Core AI Agents
-
-### 1. 🔍 Web Research Agent
-Autonomously researches complex topics using iterative planning.
-- **Input:** Natural language query.
-- **Reasoning:** Strategy Planning → Source Querying → Synthesis.
-- **Output:** Structured markdown reports with key takeaways.
-
-### 2. 🗄️ SQL Architect
-Context-aware SQL generator that understands your database schema.
-- **Input:** Database schema + Natural language request.
-- **Reasoning:** Schema Analysis → Join Identification → Query Optimization.
-- **Output:** Performance-optimized SQL query + Execution explanation.
-
-### 3. 🔬 Code Auditor
-A deep-scanning agent that reviews code for more than just syntax.
-- **Input:** Code snippet (JS, Python, Go, etc.).
-- **Reasoning:** Structural Parsing → Bug Scanning → Security Analysis.
-- **Output:** Bug reports, security vulnerabilities, and a **Refactored Version**.
-
-### 4. ⚙️ Workflow Automation Planner
-Plans multi-tool automation pipelines for enterprise scaling.
-- **Input:** Automation goal + Available tools (Slack, Gmail, etc.).
-- **Reasoning:** Goal Decomposition → Tool Mapping → Skeleton Generation.
-- **Output:** Step-by-step plan + **LangChain/Python boilerplate**.
-
----
-
-## 📐 System Architecture
-
-```mermaid
-graph TD
-  User((User)) -->|HTTPS/JWT| FE[React 19 Frontend]
-  FE -->|API Requests| BE[Express 5 Backend]
-  
-  subgraph Security Layer
-    BE -->|Auth| Passport[Passport.js / Google OAuth]
-    BE -->|Session| MongoStore[MongoDB Session Store]
-  end
-
-  BE -->|Proxy| Groq[Groq Llama 3.3 AI]
-  BE -->|Persistence| Atlas[MongoDB Atlas]
-  
-  subgraph Deployment
-    Vercel[Vercel Frontend]
-    Render[Render Backend]
-    Docker[Docker Containerization]
-  end
-```
-
----
-
-## ⚙️ Installation & Setup
-
-### Prerequisites
-- Node.js v18+
-- MongoDB Atlas Account
-- Groq/Anthropic API Key
-
-### 1. Clone the repository
 ```bash
-git clone https://github.com/Ravikiranreddybada/agentpilot.git
-cd agentpilot
+export MONGODB_URI=mongodb://localhost:27017/toolforge
+export JWT_SECRET=your-secret-here
+export GROQ_API_KEY=gsk_your_groq_key
+export GOOGLE_CLIENT_ID=your-google-client-id
+export GOOGLE_CLIENT_SECRET=your-google-client-secret
+export TAVILY_API_KEY=tvly_your_tavily_key    # optional
+export SLACK_WEBHOOK_URL=https://hooks.slack.com/... # optional
+export FRONTEND_URL=http://localhost:5173
+
+mvn spring-boot:run
+# Server starts on port 3000
 ```
 
-### 2. Backend Setup
-```bash
-cd backend
-cp .env.example .env
-npm install
-npm start # Runs on http://localhost:3000
+## How Spring AI tool-calling works (vs LangChain)
+
+In the original Node.js:
+```js
+const agent = createReactAgent({ llm, tools, checkpointSaver });
+const result = await agent.invoke({ messages }, config);
 ```
 
-### 3. Frontend Setup
-```bash
-cd ../frontend
-cp .env.example .env
-npm install
-npm run dev # Runs on http://localhost:5173
+In Spring AI, the same loop is automatic:
+```java
+chatClient.prompt()
+    .system(systemPrompt)
+    .user(message)
+    .call()         // ← Spring AI handles: LLM → tool call → result → LLM → final answer
+    .content();
 ```
+Tools are registered via `@Tool` annotations on `@Component` classes — no manual wiring needed.
 
-### 4. Docker (One-Click Setup)
-```bash
-docker-compose up -d --build
-```
+## API Endpoints
 
----
-
-## 📂 Project Structure
-
-```text
-agentpilot/
-├── backend/                # Express API
-│   ├── models/             # Mongoose Schemas
-│   ├── routes/             # API Endpoints (Auth, AI Proxy)
-│   ├── public/             # Static Assets
-│   └── app.js              # Server Entry Point
-├── frontend/               # React Application
-│   ├── src/
-│   │   ├── components/     # UI Components
-│   │   ├── pages/          # Dashboard & Auth Pages
-│   │   └── context/        # Auth State Management
-│   └── vite.config.js      # Vite Configuration
-├── docker-compose.yml      # Multi-container Orchestration
-├── Dockerfile              # Container Manifest
-└── README.md               # Main Documentation
-```
-
----
-
-## 🔮 Future Roadmap
-- [ ] **Multi-Agent Collaboration**: Allow agents to talk to each other to solve larger tasks.
-- [ ] **Custom Training**: Support for fine-tuned RAG (Retrieval Augmented Generation).
-- [ ] **Mobile App**: Native iOS/Android experience using React Native.
-- [ ] **Real-time Logs**: Streaming agent outputs via WebSockets.
-
----
-
-## 🤝 Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create.
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-## 👨‍💻 Author
-**Bada Ravi Kiran Reddy**  
-- GitHub: [@Ravikiranreddybada](https://github.com/Ravikiranreddybada)
-- Project: [AgentPilot](https://agentpilot-liard.vercel.app/)
-
----
-<div align="center">
-  Built with ❤️ for the AI community.
-</div>
+| Method | Path              | Auth | Description           |
+|--------|-------------------|------|-----------------------|
+| POST   | `/api/signup`     | No   | Register              |
+| POST   | `/api/login`      | No   | Login → JWT           |
+| POST   | `/api/logout`     | No   | Stateless logout      |
+| GET    | `/api/me`         | JWT  | Current user          |
+| GET    | `/auth/google`    | No   | Start Google OAuth    |
+| POST   | `/api/automate`   | JWT  | Run AI agent          |
+| POST   | `/api/agent`      | JWT  | Direct LLM proxy      |
+| POST   | `/api/webhook`    | No   | DevOps webhook        |
+| GET    | `/health`         | No   | Health check          |
