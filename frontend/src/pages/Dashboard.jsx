@@ -17,23 +17,15 @@ function WebResearchAgent() {
     setLoading(true); setResult(''); setStepIdx(0);
     const iv = setInterval(() => setStepIdx(i => (i + 1) % steps.length), 900);
     try {
-      const res = await fetch(`${API}/api/agent`, {
+      const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-          system: `You are a Web Research Agent. For any research query:
-1. Break it into sub-questions
-2. Synthesize a comprehensive answer with **bold** section headers
-3. End with a Key Takeaways bullet list using - bullets
-Be concise but thorough. Use emojis for section icons.`,
-          messages: [{ role: 'user', content: `Research: ${query}` }]
-        })
+        body: JSON.stringify({ agentType: 'research', message: query })
       });
       const data = await res.json();
       if (!res.ok) {
         setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
       } else {
-        setResult(data.content?.[0]?.text || 'No response.');
+        setResult(data.output || 'No response.');
       }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
@@ -51,53 +43,39 @@ Be concise but thorough. Use emojis for section icons.`,
   );
 }
 
-// ─── Task 2: SQL Query Generator ─────────────────────────────────────────────
-function SQLAgent() {
-  const [schema, setSchema] = useState('users(id, name, email, created_at), orders(id, user_id, product, amount, status, created_at)');
+// ─── Task 2: MongoDB Agent ─────────────────────────────────────────────
+function MongoDBAgent() {
   const [nlq, setNlq] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [stepIdx, setStepIdx] = useState(0);
-  const steps = ['📊 Analyzing schema...', '🧩 Identifying tables & joins...', '✍️ Generating optimized SQL...'];
+  const steps = ['📊 Discovering collections...', '🧩 Generating Mongo Query...', '💾 Executing query...'];
 
   const run = async () => {
     if (!nlq.trim()) return;
     setLoading(true); setResult(''); setStepIdx(0);
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
-      const res = await fetch(`${API}/api/agent`, {
+      const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-          system: `You are a SQL Query Generation Agent. Given a schema and natural language request:
-**🧠 Reasoning:** brief approach explanation
-**📝 SQL Query:**
-\`\`\`sql
-(query here)
-\`\`\`
-**📌 Explanation:** what it does
-**⚡ Performance Note:** tips`,
-          messages: [{ role: 'user', content: `Schema: ${schema}\nRequest: ${nlq}` }]
-        })
+        body: JSON.stringify({ agentType: 'mongodb', message: nlq })
       });
       const data = await res.json();
       if (!res.ok) {
         setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
       } else {
-        setResult(data.content?.[0]?.text || 'No response.');
+        setResult(data.output || 'No response.');
       }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
 
   return (
-    <AgentCard icon="🗄️" title="SQL Query Generator" desc="Converts natural language into optimized SQL using reasoning over your schema" color="#a78bfa" badge="Task 2">
-      <Lbl>Database Schema</Lbl>
-      <textarea style={{...s.inp, height:60, resize:'vertical', fontFamily:'monospace', fontSize:12, marginBottom:10, display:'block', width:'100%'}} value={schema} onChange={e=>setSchema(e.target.value)} />
-      <Lbl>Natural Language Request</Lbl>
+    <AgentCard icon="🗄️" title="MongoDB Data Agent" desc="Queries your MongoDB database using natural language and specialized tools" color="#a78bfa" badge="Task 2">
+      <Lbl>Natural Language Query</Lbl>
       <div style={s.row}>
-        <input style={s.inp} value={nlq} onChange={e=>setNlq(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Show top 5 users by total order amount this month" />
-        <Btn onClick={run} disabled={loading} color="#a78bfa">{loading?'…':'Generate →'}</Btn>
+        <input style={s.inp} value={nlq} onChange={e=>setNlq(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Find all users who signed up in the last 24 hours" />
+        <Btn onClick={run} disabled={loading} color="#a78bfa">{loading?'…':'Query →'}</Btn>
       </div>
       {loading && <Loader step={steps[stepIdx]} color="#a78bfa" />}
       {result && <Out text={result} color="#a78bfa" />}
@@ -119,25 +97,15 @@ function CodeReviewAgent() {
     setLoading(true); setResult(''); setStepIdx(0);
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
-      const res = await fetch(`${API}/api/agent`, {
+      const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-          system: `You are a Code Review Agent for ${lang}. Analyze and provide:
-**🐛 Bugs & Issues:** list bugs/errors
-**⚡ Performance:** bottlenecks
-**🔒 Security:** vulnerabilities
-**📐 Code Quality:** readability/structure
-**✅ Refactored Version:** improved snippet
-**📊 Score:** X/10 with verdict`,
-          messages: [{ role: 'user', content: `Review this ${lang}:\n\`\`\`${lang.toLowerCase()}\n${code}\n\`\`\`` }]
-        })
+        body: JSON.stringify({ agentType: 'codereview', message: code })
       });
       const data = await res.json();
       if (!res.ok) {
         setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
       } else {
-        setResult(data.content?.[0]?.text || 'No response.');
+        setResult(data.output || 'No response.');
       }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
@@ -163,53 +131,116 @@ function CodeReviewAgent() {
 // ─── Task 4: Workflow Automation Planner ──────────────────────────────────────
 function WorkflowPlannerAgent() {
   const [goal, setGoal] = useState('');
-  const [tools, setTools] = useState('Gmail, Google Sheets, Slack, REST API, MongoDB');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [stepIdx, setStepIdx] = useState(0);
-  const steps = ['🎯 Analyzing workflow goal...','🔧 Selecting optimal tools...','📋 Building execution plan...','⚙️ Generating automation code...'];
+  const steps = ['🎯 Analyzing workflow goal...','🔧 Selecting optimal tools...','📋 Building execution plan...','⚙️ Executing automation...'];
 
   const run = async () => {
     if (!goal.trim()) return;
     setLoading(true); setResult(''); setStepIdx(0);
     const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
     try {
-      const res = await fetch(`${API}/api/agent`, {
+      const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-          system: `You are a Workflow Automation Planner Agent. Given a goal and tools:
-**🎯 Goal Analysis:** break down what needs to happen
-**🔧 Tool Selection:** which tools and why
-**📋 Step-by-Step Plan:** numbered execution steps
-**💻 LangChain / Python Skeleton:** show code outline
-**⏱️ Time Saved:** manual vs automated estimate
-**⚠️ Edge Cases:** potential issues and mitigations
-Be practical and specific.`,
-          messages: [{ role: 'user', content: `Goal: ${goal}\nAvailable Tools: ${tools}` }]
-        })
+        body: JSON.stringify({ agentType: 'workflow', message: goal })
       });
       const data = await res.json();
       if (!res.ok) {
         setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
       } else {
-        setResult(data.content?.[0]?.text || 'No response.');
+        setResult(data.output || 'No response.');
       }
     } catch (e) { setResult('❌ Error: ' + e.message); }
     clearInterval(iv); setLoading(false);
   };
 
   return (
-    <AgentCard icon="⚙️" title="Workflow Automation Planner" desc="Plans and generates multi-tool automation pipelines for any enterprise workflow goal" color="#fb923c" badge="Task 4">
-      <Lbl>Available Tools / APIs</Lbl>
-      <input style={{...s.inp, marginBottom:10, display:'block', width:'100%'}} value={tools} onChange={e=>setTools(e.target.value)} placeholder="Gmail, Slack, Database, REST API..." />
-      <Lbl>Automation Goal</Lbl>
+    <AgentCard icon="⚙️" title="Workflow Automation Planner" desc="Plans and executes multi-tool automation pipelines using Slack and HTTP tools" color="#fb923c" badge="Task 4">
       <div style={s.row}>
-        <input style={s.inp} value={goal} onChange={e=>setGoal(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Auto-send weekly sales report from DB to Slack every Monday" />
-        <Btn onClick={run} disabled={loading} color="#fb923c">{loading?'…':'Plan →'}</Btn>
+        <input style={s.inp} value={goal} onChange={e=>setGoal(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Notify Slack when a new high-value order is detected" />
+        <Btn onClick={run} disabled={loading} color="#fb923c">{loading?'…':'Automate →'}</Btn>
       </div>
       {loading && <Loader step={steps[stepIdx]} color="#fb923c" />}
       {result && <Out text={result} color="#fb923c" />}
+    </AgentCard>
+  );
+}
+
+// ─── Task 5: Prompt Engineering Agent ─────────────────────────────────────────
+function PromptAgent() {
+  const [prompt, setPrompt] = useState('');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [stepIdx, setStepIdx] = useState(0);
+  const steps = ['🧠 Analyzing prompt structure...', '✨ Applying engineering patterns...', '📝 Finalizing optimized prompt...'];
+
+  const run = async () => {
+    if (!prompt.trim()) return;
+    setLoading(true); setResult(''); setStepIdx(0);
+    const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
+    try {
+      const res = await fetch(`${API}/api/automate`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
+        body: JSON.stringify({ agentType: 'prompt', message: prompt })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.output || 'No response.');
+      }
+    } catch (e) { setResult('❌ Error: ' + e.message); }
+    clearInterval(iv); setLoading(false);
+  };
+
+  return (
+    <AgentCard icon="✍️" title="Prompt Engineering Agent" desc="Transforms raw ideas into high-performance, structured system prompts" color="#f472b6" badge="Task 5">
+      <div style={s.row}>
+        <input style={s.inp} value={prompt} onChange={e=>setPrompt(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Make a prompt for a creative writer who loves sci-fi" />
+        <Btn onClick={run} disabled={loading} color="#f472b6">{loading?'…':'Optimize →'}</Btn>
+      </div>
+      {loading && <Loader step={steps[stepIdx]} color="#f472b6" />}
+      {result && <Out text={result} color="#f472b6" />}
+    </AgentCard>
+  );
+}
+
+// ─── Task 6: API Integration Agent ────────────────────────────────────────────
+function APIAgent() {
+  const [req, setReq] = useState('');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [stepIdx, setStepIdx] = useState(0);
+  const steps = ['🔗 Analyzing API requirements...', '🛠️ Generating integration code...', '📡 Testing live endpoint...'];
+
+  const run = async () => {
+    if (!req.trim()) return;
+    setLoading(true); setResult(''); setStepIdx(0);
+    const iv = setInterval(() => setStepIdx(i => (i+1) % steps.length), 900);
+    try {
+      const res = await fetch(`${API}/api/automate`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
+        body: JSON.stringify({ agentType: 'api', message: req })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.output || 'No response.');
+      }
+    } catch (e) { setResult('❌ Error: ' + e.message); }
+    clearInterval(iv); setLoading(false);
+  };
+
+  return (
+    <AgentCard icon="🔌" title="API Integration Agent" desc="Generates production-ready API code and tests endpoints in real-time" color="#38bdf8" badge="Task 6">
+      <div style={s.row}>
+        <input style={s.inp} value={req} onChange={e=>setReq(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. Integration for Stripe payment success webhook" />
+        <Btn onClick={run} disabled={loading} color="#38bdf8">{loading?'…':'Integrate →'}</Btn>
+      </div>
+      {loading && <Loader step={steps[stepIdx]} color="#38bdf8" />}
+      {result && <Out text={result} color="#38bdf8" />}
     </AgentCard>
   );
 }
@@ -321,16 +352,18 @@ export default function Dashboard() {
               </h1>
               <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Four intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
               <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12,flexWrap:'wrap'}}>
-                {[['4','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['Claude','#fb923c','Backend']].map(([v,c,l])=>(
+                {[['6','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['Spring AI','#fb923c','Backend']].map(([v,c,l])=>(
                   <span key={l} style={{color:'#333',fontSize:13}}><span style={{color:c,fontWeight:700}}>{v}</span> {l}</span>
                 ))}
               </div>
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:24}}>
               <WebResearchAgent />
-              <SQLAgent />
+              <MongoDBAgent />
               <CodeReviewAgent />
               <WorkflowPlannerAgent />
+              <PromptAgent />
+              <APIAgent />
             </div>
           </div>
         )}
