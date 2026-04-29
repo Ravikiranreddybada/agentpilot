@@ -58,6 +58,9 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             // Google OAuth2
             .oauth2Login(oauth2 -> oauth2
+                .redirectionEndpoint(redirection -> redirection
+                    .baseUri("/auth/google/callback")
+                )
                 .successHandler(oAuth2SuccessHandler)
                 .failureUrl(frontendUrl + "/login?error=google_auth_failed")
             );
