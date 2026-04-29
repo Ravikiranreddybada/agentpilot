@@ -27,7 +27,7 @@ A suite of 6 specialized agents powered by **Spring AI** and **Groq (Llama 3.3)*
 
 | Component | Link |
 | :--- | :--- |
-| **🚀 Production URL** | [agent-pilot-frontend.vercel.app](https://agent-pilot-frontend.vercel.app) |
+| **🚀 Live Frontend** | [agentpilot-liard.vercel.app](https://agentpilot-liard.vercel.app/) |
 | **🛡️ Backend API** | [agentpilot.onrender.com](https://agentpilot.onrender.com) |
 | **📹 Walkthrough** | [Watch the Demo on Loom](https://www.loom.com/share/placeholder) |
 
