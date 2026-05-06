@@ -245,6 +245,71 @@ function APIAgent() {
   );
 }
 
+// ─── Task 7: RAG Document Agent ─────────────────────────────────────────────
+function RAGAgent() {
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [ingesting, setIngesting] = useState(false);
+  const [stepIdx, setStepIdx] = useState(0);
+  const steps = ['📁 Reading knowledge base...', '🧠 Retrieving context...', '📝 Generating cited answer...'];
+
+  const run = async () => {
+    if (!query.trim()) return;
+    setLoading(true); setResult(''); setStepIdx(0);
+    const iv = setInterval(() => setStepIdx(i => (i + 1) % steps.length), 900);
+    try {
+      const res = await fetch(`${API}/api/automate`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
+        body: JSON.stringify({ agent_type: 'rag', message: query })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setResult('❌ Error: ' + (data.error || `Server error ${res.status}`));
+      } else {
+        setResult(data.output || 'No response.');
+      }
+    } catch (e) { setResult('❌ Error: ' + e.message); }
+    clearInterval(iv); setLoading(false);
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setIngesting(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await fetch(`${API}/api/rag/ingest`, {
+        method: 'POST', headers: { 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) alert('Ingest failed: ' + (data.detail || 'Error'));
+      else alert('Success! Document ingested into ' + data.doc_name);
+    } catch (err) { alert('Upload error: ' + err.message); }
+    setIngesting(false);
+  };
+
+  return (
+    <AgentCard icon="📚" title="RAG Document Agent" desc="Upload PDFs or text files to create a private knowledge base and chat with your data" color="#ef4444" badge="Task 7">
+      <div style={{...s.row, marginBottom: 12}}>
+        <label style={{background:'#222', color:'#fff', padding:'8px 16px', borderRadius:8, fontSize:12, cursor:'pointer', border:'1px solid #333'}}>
+          {ingesting ? '⏳ Ingesting...' : '📤 Upload PDF/Txt'}
+          <input type="file" onChange={handleFileUpload} style={{display:'none'}} disabled={ingesting} accept=".pdf,.txt" />
+        </label>
+        <span style={{color:'#444', fontSize:11, alignSelf:'center'}}>Ingest documents into Pinecone vector storage</span>
+      </div>
+      <div style={s.row}>
+        <input style={s.inp} value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="Ask anything about your uploaded documents..." />
+        <Btn onClick={run} disabled={loading} color="#ef4444">{loading?'…':'Ask Context →'}</Btn>
+      </div>
+      {loading && <Loader step={steps[stepIdx]} color="#ef4444" />}
+      {result && <Out text={result} color="#ef4444" />}
+    </AgentCard>
+  );
+}
+
 // ─── Shared UI Helpers ────────────────────────────────────────────────────────
 const Lbl = ({children}) => <div style={{color:'#444',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',marginBottom:6}}>{children}</div>;
 
@@ -350,9 +415,9 @@ export default function Dashboard() {
               <h1 style={{fontSize:42,fontWeight:900,lineHeight:1.2,marginBottom:12}}>
                 Agentic AI <span style={{background:'linear-gradient(135deg,#00d4ff,#a78bfa,#fb923c)',backgroundSize:'200% 200%',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',animation:'gflow 4s ease infinite'}}>Workflow Tasks</span>
               </h1>
-              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Six intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
+              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Seven intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
               <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12,flexWrap:'wrap'}}>
-                {[['6','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['FastAPI','#fb923c','Backend']].map(([v,c,l])=>(
+                {[['7','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['FastAPI','#fb923c','Backend']].map(([v,c,l])=>(
                   <span key={l} style={{color:'#333',fontSize:13}}><span style={{color:c,fontWeight:700}}>{v}</span> {l}</span>
                 ))}
               </div>
@@ -364,6 +429,7 @@ export default function Dashboard() {
               <WorkflowPlannerAgent />
               <PromptAgent />
               <APIAgent />
+              <RAGAgent />
             </div>
           </div>
         )}
