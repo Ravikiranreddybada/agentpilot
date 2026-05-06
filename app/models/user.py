@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from beanie import Document
 from pydantic import Field
 
+from pymongo import IndexModel, ASCENDING
 
 class User(Document):
     name: str
@@ -23,6 +24,6 @@ class User(Document):
     class Settings:
         name = "users"
         indexes = [
-            [("username", 1)],
-            [("email", 1)],
+            IndexModel([("username", ASCENDING)], unique=True),
+            IndexModel([("email", ASCENDING)], unique=True),
         ]
