@@ -93,14 +93,12 @@ export default function Home() {
         <div style={styles.heroLeft} className="hero-left-responsive">
           <div style={styles.badge} className="animate-fadeIn">🚀 Enterprise AI Orchestration</div>
           <h1 style={styles.title} className="animate-fadeIn delay-1">
-            LLM-Based<br />
-            <span style={styles.highlight}>Agentic AI</span><br />
-            for Tool-Using<br />
-            <span style={styles.gradientText}>Reasoning Workflows</span>
+            Autonomous <span style={styles.highlight}>Agentic AI</span><br />
+            for <span style={styles.gradientText}>Enterprise Workflows</span>
           </h1>
           <p style={styles.subtitle} className="animate-fadeIn delay-2">
-            Build, deploy, and monitor autonomous agents that plan, act, and 
-            use real-world tools via an advanced ReAct reasoning engine.
+            Build and deploy autonomous agents that plan, reason, and 
+            execute complex tasks using real-world tools and data.
           </p>
           <div style={styles.heroBtns} className="btns-responsive animate-fadeIn delay-2">
             <Link to="/signup" style={styles.btnCreate}>Create Account →</Link>
@@ -117,14 +115,14 @@ export default function Home() {
             <h2 style={styles.cardTitle}>Agent Platform</h2>
             <p style={styles.cardText}>
               Decompose complex requests into tool calls, execute multi-step 
-              plans, and generate fact-based results with 0% hallucination.
+              plans, and generate fact-based results with ReAct logic.
             </p>
             <div style={styles.featureList}>
               {[
-                { icon: '🤖', t: 'ReAct Engine', d: 'Autonomous reason-and-act tool orchestration' },
-                { icon: '🔧', t: 'Tool Orchestration', d: 'Connect MongoDB, Search, & Custom APIs' },
-                { icon: '📚', t: 'RAG Knowledge', d: 'Vector-based private document retrieval' },
-                { icon: '⚡', t: 'Fast Execution', d: 'Powered by Groq LPU hardware acceleration' }
+                { icon: '🤖', t: 'ReAct Engine', d: 'Autonomous reason-and-act orchestration' },
+                { icon: '🔧', t: 'Tool Integration', d: 'Connect MongoDB, Search, & Custom APIs' },
+                { icon: '📚', t: 'RAG Knowledge', d: 'Vector-based grounded retrieval' },
+                { icon: '⚡', t: 'LPU Powered', d: 'Hardware-accelerated Llama 3.3 via Groq' }
               ].map((f, i) => (
                 <div key={i} style={styles.featureItem}>
                   <div style={styles.featureIcon}>{f.icon}</div>
@@ -231,7 +229,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '100px 80px',
+    padding: '80px 80px',
     minHeight: '85vh',
     gap: '60px'
   },
@@ -253,11 +251,11 @@ const styles = {
     textTransform: 'uppercase'
   },
   title: {
-    fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+    fontSize: 'clamp(2rem, 5vw, 4rem)',
     fontWeight: '900',
-    lineHeight: '1.1',
+    lineHeight: '1.2',
     color: '#fff',
-    marginBottom: '24px',
+    marginBottom: '20px',
     letterSpacing: '-1px'
   },
   highlight: {
@@ -271,36 +269,42 @@ const styles = {
     animation: 'gflow 4s ease infinite'
   },
   subtitle: {
-    fontSize: '18px',
-    color: '#444',
-    lineHeight: '1.8',
-    marginBottom: '48px',
-    maxWidth: '540px'
+    fontSize: '17px',
+    color: '#666',
+    lineHeight: '1.7',
+    marginBottom: '40px',
+    maxWidth: '480px'
   },
   heroBtns: {
     display: 'flex',
-    gap: '20px',
+    gap: '16px',
     alignItems: 'center'
   },
   btnCreate: {
     background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
     color: '#fff',
-    padding: '16px 40px',
+    padding: '14px 34px',
     borderRadius: '12px',
-    fontSize: '16px',
+    fontSize: '15px',
     fontWeight: '800',
     textDecoration: 'none',
-    boxShadow: '0 10px 20px rgba(0, 212, 255, 0.2)'
+    boxShadow: '0 8px 25px rgba(0, 212, 255, 0.25)',
+    transition: 'all 0.3s ease',
+    display: 'inline-block',
+    textAlign: 'center'
   },
   btnLogin: {
-    background: 'transparent',
-    color: '#ccc',
-    padding: '16px 40px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    color: '#fff',
+    padding: '14px 34px',
     borderRadius: '12px',
-    fontSize: '16px',
+    fontSize: '15px',
     fontWeight: '700',
     textDecoration: 'none',
-    border: '1.5px solid #111'
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    transition: 'all 0.3s ease',
+    display: 'inline-block',
+    textAlign: 'center'
   },
   heroRight: {
     flex: '1',
@@ -380,5 +384,6 @@ const styles = {
     borderTop: '1px solid #111'
   }
 };
+
 
 
