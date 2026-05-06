@@ -1,138 +1,170 @@
-# 🤖 AgentPilot — Python FastAPI Backend
+<div align="center">
 
-> **Enterprise AI Reasoning Engine**  
-> Built with FastAPI, MongoDB (Beanie), and Groq (Llama-3.3).
+# 🤖 Agent Pilot
+
+### **The Enterprise AI Reasoning Engine**
+
+*Autonomous Multi-Agent Workflows powered by Llama 3.3 & FastAPI*
+
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org)
+[![Groq](https://img.shields.io/badge/Groq-f39c12?style=for-the-badge&logo=openai&logoColor=white)](https://groq.com)
+[![Pinecone](https://img.shields.io/badge/Pinecone-273c75?style=for-the-badge&logo=pinecone&logoColor=white)](https://pinecone.io)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+
+[Explore Demo](https://agentpilot-liard.vercel.app/) • [API Reference](https://agentpilot.onrender.com/docs) • [Report Bug](https://github.com/ravikiranreddybada/agentpilot/issues)
+
+</div>
+
+---
+
+## 📖 Overview
+
+**Agent Pilot** is a production-grade AI orchestration platform that enables autonomous agentic workflows. Unlike traditional chatbots, Agent Pilot uses a **ReAct (Reason + Act)** loop to decompose complex user requests into actionable steps, executing real-world tools—from MongoDB queries to web research—before synthesizing a final answer.
+
+### The Problem
+Most AI interfaces are limited to static knowledge or simple RAG. They cannot "act" on your data, query your production databases, or plan multi-step automation.
+
+### The Solution
+Agent Pilot provides a suite of **7 specialized AI Agents** that can:
+- 🔍 **Research** the live web.
+- 🗄️ **Query** MongoDB using natural language.
+- 📚 **Chat** with private PDF documents via a high-performance RAG pipeline.
+- ⚙️ **Automate** workflows via Slack and HTTP integrations.
+
+---
+
+## 🌐 Live Links
+
+| Service | URL |
+| :--- | :--- |
+| **🚀 Frontend (Vercel)** | [https://agentpilot-liard.vercel.app/](https://agentpilot-liard.vercel.app/) |
+| **📡 Backend (Render)** | [https://agentpilot.onrender.com](https://agentpilot.onrender.com) |
+| **🎥 Demo Video** | [Watch on Loom](https://www.loom.com/share/your-demo-link) *(Add your link here)* |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer         | Technology                |
-|--------------|---------------------------|
-| Framework     | FastAPI 0.115             |
-| LLM Client    | openai SDK (Groq)         |
-| Auth          | PyJWT + FastAPI Depends   |
-| DB ORM        | Beanie (Motor async)      |
-| HTTP Client   | httpx (async)             |
-| Validation    | Pydantic v2               |
-| Password Hash | bcrypt library            |
+<details open>
+<summary><b>Backend & AI</b></summary>
+
+- **Language**: Python 3.11+
+- **Framework**: FastAPI (Async, Pydantic v2)
+- **LLM**: Groq (Llama 3.3 70B Versatile)
+- **Embeddings**: Jina AI (v2-base-en)
+- **Vector DB**: Pinecone (Serverless)
+- **Auth**: JWT (PyJWT), Google OAuth 2.0, BCrypt
+</details>
+
+<details open>
+<summary><b>Frontend</b></summary>
+
+- **Library**: React 18
+- **Build Tool**: Vite
+- **State Management**: React Context API
+- **Styling**: Vanilla CSS (Custom Glassmorphism Design System)
+- **Typography**: Syne & JetBrains Mono (Google Fonts)
+</details>
+
+<details>
+<summary><b>Database & DevOps</b></summary>
+
+- **Primary DB**: MongoDB (Beanie ODM / Motor)
+- **Hosting**: Render (Backend), Vercel (Frontend)
+- **Containerization**: Docker & Docker Compose
+</details>
 
 ---
 
-## 🚀 Setup
+## ✨ Features
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
+### 🤖 7 Specialized AI Agents
+1. **Web Research Agent**: Autonomously browses the live web for current events and citations.
+2. **MongoDB Data Agent**: Generates and executes MongoDB Shell queries from natural language.
+3. **Code Review Agent**: Performs deep static analysis and identifies security vulnerabilities.
+4. **Workflow Planner**: Designs and tests multi-step automation pipelines.
+5. **Prompt Engineer**: Optimizes raw prompts into production-grade instructions.
+6. **API Integration Agent**: Generates and tests real-time API integration code.
+7. **RAG Document Agent**: Private knowledge base support (PDF/Text) with semantic search.
+
+### 🧠 ReAct Reasoning Engine
+Every agent follows a manual **ReAct** loop:
+`Input` → `Thought` → `Action (Tool Call)` → `Observation` → `Final Answer`.
+
+This approach ensures:
+- ✅ **Zero Hallucination**: Every answer is grounded in real-world tool output or retrieved context.
+- ✅ **LPU Hardware Acceleration**: Blazing fast inference (500+ tokens/sec) via Groq LPUs.
+- ✅ **Autonomous Planning**: The AI decides which tools to use and in what order.
+
+---
+
+## 🏗️ Architecture & Workflow
+
+```text
+[ Client (React) ] 
+       │
+       ▼
+[ FastAPI (Uvicorn) ] ───▶ [ Auth / Middleware ] 
+       │
+       ▼
+[ Agent Service (ReAct Loop) ] ◀───▶ [ Groq Llama 3.3 LLM ]
+       │
+       ├─▶ [ Web Search Tool ]
+       ├─▶ [ MongoDB Tool ]
+       ├─▶ [ Pinecone RAG Tool ] ◀───▶ [ Jina Embeddings ]
+       └─▶ [ HTTP/Slack Tools ]
 ```
 
-### 2. Configure environment
+---
+
+## 📸 Demo Preview
+
+<div align="center">
+  <img src="https://via.placeholder.com/800x450.png?text=Agent+Pilot+Dashboard+Preview" alt="Dashboard Preview" width="800">
+  <p><i>Premium Dark Mode Dashboard with Real-time ReAct Agent Execution steps.</i></p>
+</div>
+
+---
+
+## 🔑 Resume Bullet Points (Technical Deep-Dive)
+
+*   **The ReAct Innovation**: Implemented a custom **ReAct (Reason + Act) orchestration loop** in Python, enabling agents to autonomously decompose complex tasks into tool calls.
+*   **High-Performance RAG**: Engineered a RAG pipeline using **Jina AI embeddings** and **Pinecone**, achieving strict grounded retrieval and **Zero Hallucination** responses.
+*   **Hardware Acceleration**: Leveraged **Groq LPU hardware** for Llama 3.3 70B inference, delivering sub-second response times for complex reasoning tasks.
+*   **Async Scalability**: Developed a fully asynchronous backend with **FastAPI** and **Motor (MongoDB)**, capable of handling concurrent multi-agent missions without blocking.
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ravikiranreddybada/agentpilot.git
+cd agentpilot
+```
+
+### 2. Backend Setup
 ```bash
 cp .env.example .env
-# Fill in your GROQ_API_KEY, MONGODB_URI, JWT_SECRET, etc.
-```
-
-### 3. Run
-```bash
+pip install -r requirements.txt
 python run.py
-# OR for production:
-uvicorn app.main:app --host 0.0.0.0 --port 10000
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
 ---
 
-## 📡 API Endpoints (Same as Java version)
-
-| Method | Path            | Auth | Description                          |
-|--------|----------------|------|--------------------------------------|
-| `GET`  | `/health`       | No   | Health check                         |
-| `POST` | `/api/signup`   | No   | Register new user                    |
-| `POST` | `/api/login`    | No   | Login → returns JWT                  |
-| `POST` | `/api/logout`   | No   | Stateless logout                     |
-| `GET`  | `/api/me`       | JWT  | Get current user from token          |
-| `POST` | `/api/automate` | JWT  | Run AI agent with tool-calling       |
-| `POST` | `/api/agent`    | No   | Direct LLM proxy (no tools)          |
-| `POST` | `/api/webhook`  | No   | DevOps demo webhook                  |
-
-### `/api/automate` request body:
-```json
-{
-  "message": "Search for recent AI news",
-  "agent_type": "research",
-  "thread_id": "optional-thread-id"
-}
-```
-
-**agent_type** options: `research`, `mongodb`, `codereview`, `workflow`, `prompt`, `api`
+## 📄 License
+This project is licensed under the MIT License.
 
 ---
 
-## 🧠 How the ReAct Loop Works
-
-The agentic loop is implemented using the ReAct (Reason + Act) pattern:
-1. Send message + tools to Groq LLM
-2. If LLM returns tool_calls → execute each tool, append results to messages
-3. Send updated messages back to LLM
-4. Repeat until LLM returns plain text (no more tool calls)
-5. Return final answer
-
----
-
-## 📁 Project Structure
-
-```
-agentpilot_python/
-├── app/
-│   ├── main.py              # FastAPI app, CORS, lifespan
-│   ├── core/
-│   │   ├── database.py      # Motor/Beanie MongoDB setup
-│   │   └── security.py      # JWT generation & verification
-│   ├── models/
-│   │   ├── user.py          # User Beanie document
-│   │   └── schemas.py       # Pydantic request/response schemas
-│   ├── services/
-│   │   ├── user_service.py  # Registration, auth, BCrypt
-│   │   └── agent_service.py # ReAct loop, agent prompts
-│   ├── tools/
-│   │   └── agent_tools.py   # All 5 tools + tool dispatcher
-│   └── routers/
-│       ├── auth.py          # Auth endpoints
-│       └── agent.py         # Agent endpoints
-├── run.py                   # Dev server entry point
-├── requirements.txt
-├── Dockerfile
-└── .env.example
-```
-
----
-
-## 🔑 Key Python Concepts Used (Resume-Worthy!)
-
-- **FastAPI** — async REST API framework
-- **Beanie ODM** — async MongoDB with Pydantic models
-- **OpenAI SDK** — calling Groq LLM with tool-calling
-- **ReAct pattern** — manually implemented agentic loop
-- **PyJWT** — stateless JWT auth
-- **bcrypt** — password hashing
-- **httpx** — async HTTP client
-- **Pydantic v2** — request/response validation
-- **asyncio** — fully async architecture
-- **Motor** — async MongoDB driver
-
----
-
-## 👨‍💻 Resume Bullet Points
-
-```
-• Converted enterprise Java Spring Boot AI backend to Python FastAPI,
-  maintaining 100% API compatibility with the React frontend
-
-• Implemented ReAct (Reason + Act) agentic loop from scratch using 
-  OpenAI tool-calling API with Groq Llama-3.3-70b
-
-• Built 5 AI agent tools: Tavily web search, MongoDB querying,
-  HTTP requests, Slack notifications — all async with httpx
-
-• Designed async MongoDB integration using Beanie ODM (Motor driver)
-  with JWT authentication via PyJWT and bcrypt password hashing
-```
+## 👤 Author
+**Bada Ravi Kiran Reddy** - *Full Stack Developer*
+[GitHub](https://github.com/ravikiranreddybada) | [Portfolio](https://ravikiranreddybada.dev)

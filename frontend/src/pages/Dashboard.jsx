@@ -32,7 +32,7 @@ function WebResearchAgent() {
   };
 
   return (
-    <AgentCard icon="🔍" title="Web Research Agent" desc="Autonomously researches any topic using chain-of-thought reasoning" color="#00d4ff" badge="Task 1">
+    <AgentCard icon="🔍" title="Web Research Agent" desc="Autonomously researches any topic using the ReAct reasoning pattern" color="#00d4ff" badge="Task 1">
       <div style={s.row}>
         <input style={s.inp} value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>e.key==='Enter'&&run()} placeholder="e.g. How do transformer models work? What is LangChain?" />
         <Btn onClick={run} disabled={loading} color="#00d4ff">{loading?'…':'Research →'}</Btn>
@@ -415,7 +415,7 @@ export default function Dashboard() {
               <h1 style={{fontSize:42,fontWeight:900,lineHeight:1.2,marginBottom:12}}>
                 Agentic AI <span style={{background:'linear-gradient(135deg,#00d4ff,#a78bfa,#fb923c)',backgroundSize:'200% 200%',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',animation:'gflow 4s ease infinite'}}>Workflow Tasks</span>
               </h1>
-              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Seven intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
+              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Seven intelligent agents that plan, reason, and execute tasks autonomously using ReAct orchestration loops</p>
               <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12,flexWrap:'wrap'}}>
                 {[['7','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['FastAPI','#fb923c','Backend']].map(([v,c,l])=>(
                   <span key={l} style={{color:'#333',fontSize:13}}><span style={{color:c,fontWeight:700}}>{v}</span> {l}</span>
@@ -478,7 +478,7 @@ export default function Dashboard() {
       </div>
 
       <footer style={{borderTop:'1px solid #111',padding:20,textAlign:'center',color:'#222',fontSize:12,fontFamily:'JetBrains Mono,monospace'}}>
-        © 2025 Agent Pilot — LLM-Based Agentic AI for Tool-Using Reasoning Workflows
+        © 2025 Agent Pilot — LLM-Based Agentic AI for Tool-Using ReAct Workflows
       </footer>
     </div>
   );
