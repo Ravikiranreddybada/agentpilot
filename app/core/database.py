@@ -8,7 +8,7 @@ import motor.motor_asyncio
 from beanie import init_beanie
 from app.models.user import User
 
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://127.0.0.1:27017/toolforge")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://127.0.0.1:27017/agentpilot").strip()
 
 client: motor.motor_asyncio.AsyncIOMotorClient = None
 
