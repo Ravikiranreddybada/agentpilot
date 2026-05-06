@@ -20,6 +20,8 @@ MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://127.0.0.1:27017/toolforge")
 
 # ─── Tool Definitions (JSON Schema for Groq/OpenAI) ──────────────────────────
 
+from app.tools.rag_tools import retrieve_context, list_documents, RAG_TOOL_DEFINITIONS
+
 TOOL_DEFINITIONS = [
     {
         "type": "function",
@@ -103,7 +105,7 @@ TOOL_DEFINITIONS = [
             },
         },
     },
-]
+] + RAG_TOOL_DEFINITIONS
 
 
 # ─── Tool Implementations ─────────────────────────────────────────────────────
@@ -223,5 +225,12 @@ async def call_tool(tool_name: str, arguments: dict) -> str:
         return await execute_http_request(arguments["url"])
     elif tool_name == "send_slack_notification":
         return await send_slack_notification(arguments["message"])
+    elif tool_name == "retrieve_context":
+        return await retrieve_context(
+            arguments.get("query"),
+            arguments.get("top_k", 5)
+        )
+    elif tool_name == "list_documents":
+        return await list_documents()
     else:
         return f"Unknown tool: {tool_name}"

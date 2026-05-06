@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import os
 
-from app.routers import auth, agent
+from app.routers import auth, agent, rag
 from app.core.database import init_db
 
 
@@ -39,6 +39,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(agent.router)
+app.include_router(rag.router, prefix="/api/rag")
 
 
 @app.get("/health")
