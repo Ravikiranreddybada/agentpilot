@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ username, password })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Login failed');
+    if (!res.ok) throw new Error(data.detail || data.error || 'Login failed');
     setToken(data.token);
     setUser(data.user);
     return data;
@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
       body: JSON.stringify(formData)
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Signup failed');
+    if (!res.ok) throw new Error(data.detail || data.error || 'Signup failed');
     return data;
   };
 
