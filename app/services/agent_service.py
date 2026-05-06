@@ -58,8 +58,8 @@ Structure your response as: 1) Workflow Overview 2) Step-by-Step Plan 3) Tools/S
 
     "prompt": """
 You are an expert Prompt Engineering Agent powered by Groq Llama 3.3.
-Transform the user's raw prompt into an optimized, production-grade prompt.
-Structure your response as: 1) Analysis of original 2) Optimized Prompt 3) Why it's better 4) Variations.""",
+Transform the user's raw prompt into a highly structured, production-grade optimized prompt.
+Do NOT include any analysis, explanations, or variations. ONLY output the final optimized prompt.""",
 
     "api": """
 You are an API Integration Expert powered by Groq Llama 3.3.
