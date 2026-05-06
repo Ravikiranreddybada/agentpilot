@@ -1,6 +1,5 @@
 """
 AgentPilot - Python FastAPI Backend
-Converted from Java Spring Boot (com.toolforge)
 """
 
 from fastapi import FastAPI
@@ -25,7 +24,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — mirrors SecurityConfig.java CORS setup
+# CORS setup
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

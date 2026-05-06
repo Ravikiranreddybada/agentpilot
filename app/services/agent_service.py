@@ -1,10 +1,8 @@
 """
-Agent Service.
-Mirrors AgentService.java — implements the ReAct tool-calling loop
-using the Groq API (OpenAI-compatible).
+Agent service for the ReAct tool-calling loop.
 
-Spring AI handled the tool-calling loop automatically; here we do it manually
-with the openai Python SDK pointing at Groq's base URL.
+The tool-calling loop is manually implemented here
+using the openai Python SDK pointing at Groq's base URL.
 """
 
 import os
@@ -24,7 +22,7 @@ MODEL = "llama-3.3-70b-versatile"
 MAX_TOKENS = 2048
 TIMEOUT_SECONDS = 45
 
-# Mirrors AGENT_PROMPTS map in AgentService.java
+# Agent Prompts Map
 AGENT_PROMPTS: dict[str, str] = {
     "research": """
 You are a Web Research Agent powered by Groq Llama 3.3.
@@ -80,7 +78,7 @@ class AgentService:
     """
     Implements the ReAct (Reason + Act) agentic loop with tool calling.
     
-    In Spring AI this loop was automatic; here we implement it explicitly:
+    We implement the tool-calling loop explicitly:
     LLM → may call tools → tool executes → result fed back → LLM continues → final answer.
     """
 

@@ -1,6 +1,5 @@
 """
-JWT utilities.
-Mirrors JwtUtils.java and JwtAuthFilter.java.
+Security utilities (JWT authentication).
 """
 
 import os
@@ -44,7 +43,7 @@ async def get_current_user(
 ) -> dict:
     """
     FastAPI dependency — extracts claims from JWT.
-    Mirrors JwtAuthFilter.java (sets SecurityContext from JWT).
+    Extracts user info from JWT and sets it in the request scope.
     Use as: claims: dict = Depends(get_current_user)
     """
     if not credentials:

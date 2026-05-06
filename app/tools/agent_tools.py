@@ -1,6 +1,5 @@
 """
-AI Agent Tools.
-Mirrors TavilyTools.java, MongoTools.java, SlackTools.java, HttpTools.java.
+Agent tools definitions.
 
 Each function is a tool that the LLM can call via the OpenAI tool-calling API.
 Tool schemas are defined as JSON schema dicts for use with the Groq/OpenAI API.

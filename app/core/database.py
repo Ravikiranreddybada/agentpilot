@@ -1,6 +1,5 @@
 """
 MongoDB async connection using Motor.
-Mirrors Spring Data MongoDB configuration.
 """
 
 import os

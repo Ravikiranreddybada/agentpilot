@@ -1,6 +1,5 @@
 """
 Agent endpoints.
-Mirrors AgentController.java — /api/automate, /api/agent.
 """
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -18,7 +17,7 @@ MODEL = "llama-3.3-70b-versatile"
 
 
 class AutomateRequest(BaseModel):
-    """Mirrors AgentDto.AutomateRequest."""
+    """Request model for automation."""
     message: str
     agent_type: str
     thread_id: Optional[str] = None
@@ -30,7 +29,7 @@ class GroqMessage(BaseModel):
 
 
 class GroqRequest(BaseModel):
-    """Mirrors AgentDto.GroqRequest."""
+    """Request model for Groq API."""
     system: Optional[str] = None
     messages: Optional[list[dict]] = None
     max_tokens: Optional[int] = 1000
@@ -42,7 +41,6 @@ async def automate(
     claims: dict = Depends(get_current_user),
 ):
     """
-    Mirrors POST /api/automate.
     Runs the selected agent type with tool-calling (ReAct loop).
     """
     if not req.message or not req.agent_type:
@@ -61,7 +59,7 @@ async def automate(
 async def agent_proxy(req: GroqRequest):
     """
     Direct LLM proxy (no tools).
-    Mirrors POST /api/agent in auth.js — returns { content: [{ type, text }] }.
+    Returns { content: [{ type, text }] }.
     """
     try:
         client = AsyncOpenAI(

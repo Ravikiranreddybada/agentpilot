@@ -1,6 +1,5 @@
 """
-Auth request/response schemas.
-Mirrors AuthDto.java inner classes.
+Pydantic schemas for request/response validation.
 """
 
 from typing import Optional

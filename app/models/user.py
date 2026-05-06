@@ -1,6 +1,5 @@
 """
 User document model.
-Mirrors User.java (MongoDB @Document with Spring Data).
 Uses Beanie ODM for async MongoDB.
 """
 

@@ -1,6 +1,5 @@
 """
 Auth endpoints.
-Mirrors AuthController.java — /api/login, /api/signup, /api/logout, /api/me, /api/webhook.
 """
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -14,13 +13,13 @@ router = APIRouter()
 
 @router.get("/api/me")
 async def get_me(claims: dict = Depends(get_current_user)):
-    """Mirrors GET /api/me — returns current user from JWT claims."""
+    """Returns current user from JWT claims."""
     return {"user": claims}
 
 
 @router.post("/api/login")
 async def login(req: LoginRequest):
-    """Mirrors POST /api/login."""
+    """Logs in a user and returns a JWT."""
     user = await user_service.authenticate(req.username, req.password)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -33,7 +32,7 @@ async def login(req: LoginRequest):
 
 @router.post("/api/signup")
 async def signup(req: SignupRequest):
-    """Mirrors POST /api/signup."""
+    """Registers a new user."""
     try:
         await user_service.register(
             req.name,
@@ -49,12 +48,12 @@ async def signup(req: SignupRequest):
 
 @router.post("/api/logout")
 async def logout():
-    """JWT is stateless — just tell client to delete token. Mirrors POST /api/logout."""
+    """JWT is stateless — just tell client to delete token."""
     return {"success": True, "message": "Logged out"}
 
 
 @router.post("/api/webhook")
 async def webhook(payload: Any = None):
-    """DevOps demo webhook. Mirrors POST /api/webhook."""
+    """DevOps demo webhook."""
     print(f"🔔 Webhook Payload Received: {payload}")
     return {"success": True, "message": "Webhook received successfully!"}

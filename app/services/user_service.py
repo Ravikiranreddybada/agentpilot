@@ -1,6 +1,5 @@
 """
-User service.
-Mirrors UserService.java — handles registration, authentication.
+User service for handling registration and authentication.
 """
 
 from typing import Optional
