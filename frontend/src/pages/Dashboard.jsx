@@ -19,7 +19,7 @@ function WebResearchAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'research', message: query })
+        body: JSON.stringify({ agent_type: 'research', message: query })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -58,7 +58,7 @@ function MongoDBAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'mongodb', message: nlq })
+        body: JSON.stringify({ agent_type: 'mongodb', message: nlq })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -99,7 +99,7 @@ function CodeReviewAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'codereview', message: code })
+        body: JSON.stringify({ agent_type: 'codereview', message: code })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -143,7 +143,7 @@ function WorkflowPlannerAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'workflow', message: goal })
+        body: JSON.stringify({ agent_type: 'workflow', message: goal })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -182,7 +182,7 @@ function PromptAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'prompt', message: prompt })
+        body: JSON.stringify({ agent_type: 'prompt', message: prompt })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -221,7 +221,7 @@ function APIAgent() {
     try {
       const res = await fetch(`${API}/api/automate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ap_token')}` },
-        body: JSON.stringify({ agentType: 'api', message: req })
+        body: JSON.stringify({ agent_type: 'api', message: req })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -350,9 +350,9 @@ export default function Dashboard() {
               <h1 style={{fontSize:42,fontWeight:900,lineHeight:1.2,marginBottom:12}}>
                 Agentic AI <span style={{background:'linear-gradient(135deg,#00d4ff,#a78bfa,#fb923c)',backgroundSize:'200% 200%',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',animation:'gflow 4s ease infinite'}}>Workflow Tasks</span>
               </h1>
-              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Four intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
+              <p style={{color:'#444',fontSize:15,maxWidth:520,margin:'0 auto 20px',lineHeight:1.7}}>Six intelligent agents that plan, reason, and execute tasks autonomously using large language models</p>
               <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12,flexWrap:'wrap'}}>
-                {[['6','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['Spring AI','#fb923c','Backend']].map(([v,c,l])=>(
+                {[['6','#00d4ff','Active Agents'],['LLM','#a78bfa','Powered'],['Live','#34d399','Execution'],['FastAPI','#fb923c','Backend']].map(([v,c,l])=>(
                   <span key={l} style={{color:'#333',fontSize:13}}><span style={{color:c,fontWeight:700}}>{v}</span> {l}</span>
                 ))}
               </div>
