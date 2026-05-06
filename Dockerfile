@@ -1,14 +1,15 @@
-# Build stage
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
-WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
-RUN mvn clean package -DskipTests
+# AgentPilot Python Backend — Dockerfile
+FROM python:3.12-slim
 
-# Run stage
-FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 10000
-ENTRYPOINT ["java", "-Xmx384m", "-Xms384m", "-XX:+UseParallelGC", "-Xss256k", "-jar", "app.jar"]
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source
+COPY . .
+
+EXPOSE 3000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]

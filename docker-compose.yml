@@ -10,10 +10,10 @@ services:
     volumes:
       - mongo-data:/data/db # Named volume for persistence
 
-  # ── Java Spring Boot: Application Layer ──
+  # ── Python FastAPI: Application Layer ──
   app:
     build: .
-    container_name: toolforge-java-backend
+    container_name: agentpilot-python-backend
     restart: unless-stopped
     ports:
       - "3000:3000"
