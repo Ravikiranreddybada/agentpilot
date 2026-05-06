@@ -60,3 +60,24 @@ def to_user_response(user: User) -> dict:
         "avatar": user.avatar,
         "google_id": user.google_id,
     }
+
+
+async def get_by_email(email: str) -> Optional[User]:
+    return await User.find_one(User.email == email.lower())
+
+
+async def create_oauth_user(email: str, name: str, google_id: str, avatar: str) -> User:
+    username = email.split("@")[0].lower()
+    existing = await User.find_one(User.username == username)
+    if existing:
+        username = f"{username}_{google_id[:5]}"
+
+    user = User(
+        name=name,
+        username=username,
+        email=email.lower(),
+        google_id=google_id,
+        avatar=avatar,
+    )
+    await user.insert()
+    return user
