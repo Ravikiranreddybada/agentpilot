@@ -51,7 +51,7 @@ async def automate(
     try:
         result = await agent_service.run_agent(req.message, req.agent_type, thread_id)
         return result
-    except RuntimeError as e:
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 

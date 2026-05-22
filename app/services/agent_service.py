@@ -120,7 +120,7 @@ class AgentService:
 
         try:
             result = await asyncio.wait_for(
-                self._react_loop(full_system_prompt, message),
+                self._react_loop(full_system_prompt, message, agent_type),
                 timeout=TIMEOUT_SECONDS,
             )
             return result
@@ -129,7 +129,7 @@ class AgentService:
                 "Agent timed out after 45 seconds. The LLM may be overloaded — try again."
             )
 
-    async def _react_loop(self, system_prompt: str, user_message: str) -> dict:
+    async def _react_loop(self, system_prompt: str, user_message: str, agent_type: str) -> dict:
         """
         The ReAct tool-calling loop.
         Keeps calling the LLM until it produces a final text response (no more tool calls).
@@ -140,21 +140,44 @@ class AgentService:
         ]
         steps = []
 
+        # Map agent_type to its allowed tool names
+        agent_tools_map = {
+            "research": ["search_web"],
+            "mongodb": ["get_collection_names", "execute_mongo_query"],
+            "codereview": [],
+            "workflow": ["execute_http_request", "send_slack_notification"],
+            "prompt": [],
+            "api": ["execute_http_request"],
+            "rag": ["retrieve_context", "list_documents"],
+        }
+        
+        allowed_tool_names = agent_tools_map.get(agent_type, [])
+        agent_tools = [
+            t for t in TOOL_DEFINITIONS 
+            if t.get("function", {}).get("name") in allowed_tool_names
+        ]
+
         while True:
-            response = await self.client.chat.completions.create(
-                model=MODEL,
-                messages=messages,
-                tools=TOOL_DEFINITIONS,
-                tool_choice="auto",
-                max_tokens=MAX_TOKENS,
-                temperature=0.0,
-            )
+            kwargs = {
+                "model": MODEL,
+                "messages": messages,
+                "max_tokens": MAX_TOKENS,
+                "temperature": 0.0,
+            }
+            if agent_tools:
+                kwargs["tools"] = agent_tools
+                kwargs["tool_choice"] = "auto"
+
+            response = await self.client.chat.completions.create(**kwargs)
 
             choice = response.choices[0]
             message = choice.message
 
             # Append assistant message to history
-            messages.append(message.model_dump(exclude_none=True))
+            assistant_msg = message.model_dump(exclude_none=True)
+            if "content" not in assistant_msg:
+                assistant_msg["content"] = None
+            messages.append(assistant_msg)
 
             # If no tool calls — we have the final answer
             if not message.tool_calls:

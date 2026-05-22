@@ -37,12 +37,11 @@ async def register(
     username = username.lower()
     email = email.lower()
 
-    existing = await User.find_one(
-        (User.username == username) | (User.email == email)
-    )
-    if existing:
-        if existing.username == username:
-            raise ValueError("Username already taken")
+    existing_username = await User.find_one(User.username == username)
+    existing_email = await User.find_one(User.email == email)
+    if existing_username:
+        raise ValueError("Username already taken")
+    if existing_email:
         raise ValueError("Email already registered")
 
     hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
