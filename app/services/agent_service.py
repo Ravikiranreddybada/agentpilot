@@ -54,7 +54,11 @@ You are a Workflow Automation Planner powered by Groq Llama 3.3.
 Help users design step-by-step automation workflows for their business goals.
 You can call execute_http_request to test live API endpoints if needed.
 You can call send_slack_notification to send team alerts as part of a workflow demo.
-Structure your response as: 1) Workflow Overview 2) Step-by-Step Plan 3) Tools/Services 4) Pseudocode.""",
+You can call get_user_count to fetch the real current number of users in the system.
+IMPORTANT: If the user asks you to actually perform an action with real data — for example
+"notify Slack how many users there are" — first call get_user_count to get the real number,
+then call send_slack_notification with that number, and report what you did.
+Only output a plan/pseudocode when the user explicitly asks you to design or plan a workflow.""",
 
     "prompt": """
 You are an expert Prompt Engineering Agent powered by Groq Llama 3.3.
@@ -145,7 +149,7 @@ class AgentService:
             "research": ["search_web"],
             "mongodb": ["get_collection_names", "execute_mongo_query"],
             "codereview": [],
-            "workflow": ["execute_http_request", "send_slack_notification"],
+            "workflow": ["execute_http_request", "send_slack_notification", "get_user_count"],
             "prompt": [],
             "api": ["execute_http_request"],
             "rag": ["retrieve_context", "list_documents"],

@@ -105,6 +105,17 @@ TOOL_DEFINITIONS = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_user_count",
+            "description": (
+                "Returns the current total number of registered users in the system. "
+                "Use this when the user asks how many users there are."
+            ),
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
 ] + RAG_TOOL_DEFINITIONS
 
 
@@ -205,6 +216,19 @@ async def send_slack_notification(message: str) -> str:
         return f"Failed to send Slack notification: {e}"
 
 
+async def get_user_count() -> str:
+    """Returns the current number of registered users in the database."""
+    try:
+        client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)
+        db_name = MONGODB_URI.rsplit("/", 1)[-1].split("?")[0] or "toolforge"
+        db = client[db_name]
+        count = await db.users.count_documents({})
+        client.close()
+        return f"There are currently {count} registered users in the system."
+    except Exception as e:
+        return f"Could not get user count: {e}"
+
+
 # ─── Tool Dispatcher ──────────────────────────────────────────────────────────
 
 async def call_tool(tool_name: str, arguments: dict) -> str:
@@ -225,6 +249,8 @@ async def call_tool(tool_name: str, arguments: dict) -> str:
         return await execute_http_request(arguments["url"])
     elif tool_name == "send_slack_notification":
         return await send_slack_notification(arguments["message"])
+    elif tool_name == "get_user_count":
+        return await get_user_count()
     elif tool_name == "retrieve_context":
         return await retrieve_context(
             arguments.get("query"),
